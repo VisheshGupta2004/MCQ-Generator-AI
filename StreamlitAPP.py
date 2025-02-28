@@ -7,7 +7,7 @@ from src.mcqgenerator.utils import read_file,get_table_data
 import streamlit as st 
 from langchain.chat_models import ChatOpenAI 
 from langchain.callbacks import get_openai_callback
-from langchain.evaluation.loading import load_evaluator
+from langchain.evaluation import generate_evaluate_chain 
 from src.mcqgenerator.logger import logging
 from src.mcqgenerator.MCQGenerator import logging
 
@@ -28,15 +28,13 @@ with st.form("user_inputs"):
                        
     button=st.form_sumit_button("Create MCQs")
     
-    evaluator = load_evaluator("qa")
-    
     if button and upload_file is not None and mcq_count and subject and tone:
         with st.spinner("loading..."):
             try:
                 text=read_file(upload_file)
                 
                 with get_openai_callback() as cb:
-                    response=evaluator.evaluate(
+                    response=generate_evaluate_chain (
                         {
                         "text": text,
                         "number": mcq_count,
