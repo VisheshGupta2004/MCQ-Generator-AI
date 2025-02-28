@@ -28,6 +28,7 @@ with st.form("user_inputs"):
                        
     button=st.form_sumit_button("Create MCQs")
     
+    evaluator = load_evaluator("qa")
     
     if button and upload_file is not None and mcq_count and subject and tone:
         with st.spinner("loading..."):
