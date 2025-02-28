@@ -7,7 +7,7 @@ from src.mcqgenerator.utils import read_file,get_table_data
 import streamlit as st 
 from langchain.chat_models import ChatOpenAI 
 from langchain.callbacks import get_openai_callback
-from langchain.evaluation import run_evaluator
+from langchain.evaluation.loading import load_evaluator
 from src.mcqgenerator.logger import logging
 from src.mcqgenerator.MCQGenerator import logging
 
@@ -35,7 +35,7 @@ with st.form("user_inputs"):
                 text=read_file(upload_file)
                 
                 with get_openai_callback() as cb:
-                    response=run_evaluator(
+                    response=evaluator.evaluate(
                         {
                         "text": text,
                         "number": mcq_count,
